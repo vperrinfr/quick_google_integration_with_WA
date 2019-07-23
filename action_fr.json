@@ -1,0 +1,32 @@
+{
+    "locale": "fr",
+    "actions": [
+    {
+      "description": "covea",
+      "name": "MAIN",
+      "fulfillment": {
+        "conversationName": "covea"
+      },
+      "intent": {
+        "name": "actions.intent.MAIN",
+        "trigger": {
+          "queryPatterns": [
+            "Dis à covea",
+            "Demande à covea"
+          ]
+        }
+      }
+    }
+  ],
+  "conversations": {
+    "Isanthea": {
+      "name": "covea",
+      "url": "https://us-south.functions.cloud.ibm.com/api/v1/web/vincent.perrin%40fr.ibm.com_dev/default/Watson-Home.json",
+      "in_dialog_intents": [
+        {
+          "name": "actions.intent.CANCEL"
+        }
+      ]
+    }
+  }
+}
