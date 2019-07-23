@@ -5,7 +5,7 @@ An example Watson Assistant skill is included to demonstrate how to pass context
 
 When the reader has completed this Code Pattern, they will understand how to:
 
-* Create an OpenWhisk action in the IBM Cloud Functions serverless platform
+* Create an IBM Cloud Functions action in the IBM Cloud Functions serverless platform
 * Import a skill into Watson Assistant
 * Invoke a skill with Watson using Node.js
 * Create an Google Assistant skill to reach tens of millions of customers
@@ -103,11 +103,11 @@ Edit the `.params` file and add the required settings as described below.
 
 ```
 
-### 6. Create the OpenWhisk action
+### 6. Create the IBM Cloud Functions action
 
 As a prerequisite, [install the Cloud Functions (IBM Cloud OpenWhisk) CLI](https://cloud.ibm.com/docs/openwhisk/bluemix_cli.html#cloudfunctions_cli)
 
-#### Create the OpenWhisk action
+#### Create the IBM Functions action
 
 Run these commands to gather Node.js requirements, zip the source files, and upload the zipped files
 to create a raw HTTP web action in OpenWhisk.
