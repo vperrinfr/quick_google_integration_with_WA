@@ -72,11 +72,7 @@ Import the Assistant workspace.json:
 * Click `Choose JSON file`, go to your cloned repo dir, and `Open` the workspace.json file in [`data/conversation/workspaces/workspace.json`](data/conversation/workspaces/workspace.json).
 * Select `Everything` and click `Import`.
 
-### 3. Setup Google Action
-
-[Follow steps on this github](https://github.com/IBM/watson-google-assistant#setup-google-actions)
-
-### 4. Configure credentials
+### 3. Configure credentials
 
 The default runtime parameters need to be set for the action.
 These can be set on the command line or via the IBM Cloud UI.
@@ -103,7 +99,7 @@ Edit the `.params` file and add the required settings as described below.
 
 ```
 
-### 6. Create the IBM Cloud Functions action
+### 4. Create the IBM Cloud Functions action
 
 As a prerequisite, [install the Cloud Functions (IBM Cloud OpenWhisk) CLI](https://cloud.ibm.com/docs/openwhisk/bluemix_cli.html#cloudfunctions_cli)
 
@@ -121,7 +117,67 @@ zip -r action.zip main.js package* node_modules
 ibmcloud wsk action update Watson-Home action.zip --kind nodejs:10 --param-file .params
 ```
 
-### 7. Talk to it
+#### Enable and Retrieve the IBM Functions URI
+
+1. Go to [IBM Cloud function GUI](https://cloud.ibm.com/openwhisk/)
+
+2. Go to Actions in the menu, click on the new Function and click on Endpoints
+
+3. Then check the two boxes Enable as Web Action & Raw HTTP handling
+
+4. Copy the URL of the Web Action of your Cloud Functions, it will be used for the Google Actions configuration later in that doc.
+
+### 5. Setup Google Action
+
+1. Go to [Actions on Google Developer Console](https://console.actions.google.com)
+
+2. Create your project
+   * Click on `+ Add/import project`
+   * Enter a project name
+   * Choose the default language for your Actions
+   * Select your country or region
+   * Click on `CREATE PROJECT`
+   * Click on `SKIP` to choose a category later
+
+3. Obtain your project ID
+   * Next to the `Overview` menu item, click on the gear icon and then `Project settings`.
+   * Save the `Project ID` to use later.
+
+4. Set the invocation name
+
+   * Use the left sidebar menu to select `SETUP` > `Invocation`.
+   * Enter a display name. Users will say or type this name to explicitly invoke your action.
+   * Hit `SAVE`.
+
+5. Install the `gactions` CLI
+   * Download the `gactions` CLI from [here](https://developers.google.com/actions/tools/gactions-cli).
+   * `chmod` the `gactions` file to make it executable.
+   * Copy the `gactions` file into your local repo's `actions` directory.
+     ```bash
+     # For example, depending on your download and repo directories...
+
+     chmod +x ~/Downloads/gactions
+     cp ~/Downloads/gactions ~/watson-google-assistant/actions/
+     ```
+
+6. Edit the `actions/action_fr.json` file in your local repo.
+   * Edit the `url` using your deployed IBM Cloud Functions URL. Typically, you would just modify the timestamp digits and region.
+     > Note: URL needs `https://` prefix e.g. https://us-south.functions.cloud.ibm.com/api/v1/web/vincent.perrin%40fr.ibm.com_dev/default/XXXXXXXXX.json
+
+7. Create the action using the CLI
+   > Note: If/when it prompts you to enter an authorization code, browse to the provided URL to login and authorize the CLI to use your account and copy/paste the auth code at the prompt.
+
+   * Run the `gactions` command to update your action and prepare it for testing. Use the project ID you saved earlier.
+
+     ```bash
+     cd ~/watson-google-assistant/actions/
+     ./gactions update --action_package action.json --project <YOUR_PROJECT_ID>
+     ./gactions test --action_package action.json --project <YOUR_PROJECT_ID>
+     ```
+
+
+[More details](https://github.com/IBM/watson-google-assistant#setup-google-actions)
+
+### 6. Talk to it
 
 Go on Google Assistant simulator and try to speak to your bot
-
